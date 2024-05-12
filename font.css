@@ -1,0 +1,8 @@
+@font-face {
+	font-family: "8BIT WONDER";
+	src: url("tetris-dodatno/8BITWONDERNominal.woff2") format("woff2"),
+		url("tetris-dodatno/8BITWONDERNominal.woff") format("woff");
+	font-weight: normal;
+	font-style: normal;
+	font-display: swap;
+}

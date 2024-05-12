@@ -1,0 +1,41 @@
+#index-background {
+	width: 100%;
+}
+
+#indexPage {
+	background-image: url("tetris-dodatno/index-background.jpg");
+	background-size: cover;
+	height: 100vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+#mute {
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.5);
+}
+
+#uputstvo {
+	text-align: center;
+}
+
+#tekst-uputstva {
+	font-family: "8BIT WONDER";
+	font-size: 9px;
+	font-display: swap;
+	width: 100vw;
+	resize: none;
+	padding: 5px;
+	box-sizing: border-box;
+	background-color: rgba(26, 27, 70, 0.697);
+	color: white;
+}
+
+#title {
+	font-family: "8BIT WONDER";
+	font-size: 36px;
+	color: red;
+	text-align: center;
+}
