@@ -29,12 +29,93 @@
 		<script src="uputstvo.js"></script>
 	</head>
 	<body>
-		<div id="indexPage" class="col container-flow">
-			<div id="mute">
-				<span id="uputstvo" class="col-lg-12 col-md-12">
+		<div id="indexPage" class="container">
+			<div id="mute" class="row">
+				<span id="uputstvo" class="col-lg-12">
 					<h1 id="title">Uputstvo za Igru:</h1>
 					<textarea id="tekst-uputstva"></textarea>
 				</span>
+				<div class="col-lg-6" id="tezina">
+					<p id="tekst-tezine">
+						Izaberite nivo igre. Nivo igre utice na brzinu padanja
+						blokova:
+					</p>
+					<input type="button" value="Lako" class="btn btn-group" />
+					<input
+						type="button"
+						value="Srednje"
+						class="btn btn-group"
+					/>
+					<input type="button" value="Tesko" class="btn btn-group" />
+				</div>
+				<div id="blokIzbor">
+					Izaberite minimum dve vrste bloka koje ce biti koriscene:
+				</div>
+				<div class="col-lg-2 text-center">
+					<img
+						src="tetris-dodatno/s-block.png"
+						alt="S Block"
+						class="block"
+					/>
+					<input type="radio" name="" id="s-block-radio" />
+					<br />
+					<img
+						src="tetris-dodatno/t-block.png"
+						alt="T Block"
+						class="block"
+					/>
+					<input type="radio" name="" id="t-block-radio" />
+				</div>
+
+				<div class="col-lg-2 text-center">
+					<img
+						src="tetris-dodatno/l-block.png"
+						alt="L Block"
+						class="block"
+					/>
+					<input type="radio" name="" id="l-block-radio" />
+					<br />
+					<br />
+					<img
+						src="tetris-dodatno/o-block.png"
+						alt="O Block"
+						class="block"
+					/>
+					<input type="radio" name="" id="o-block-radio" />
+
+					<button
+						class="btn btn-success"
+						id="zapocniIgruBtn"
+						onclick="handleSelection()"
+					>
+						Zapocni Igru
+					</button>
+				</div>
+
+				<div class="col-lg-2 text-center">
+					<img
+						src="tetris-dodatno/z-block.png"
+						alt="Z Block"
+						class="block"
+					/>
+					<input type="radio" name="" id="z-block-radio" />
+					<br />
+					<br />
+					<img
+						src="tetris-dodatno/i-block.png"
+						alt="I Block"
+						class="block"
+					/>
+					<input type="radio" name="" id="i-block-radio" />
+					<br />
+					<br />
+					<img
+						src="tetris-dodatno/j-block.png"
+						alt="J Block"
+						class="block"
+					/>
+					<input type="radio" name="" id="j-block-radio" />
+				</div>
 			</div>
 		</div>
 	</body>

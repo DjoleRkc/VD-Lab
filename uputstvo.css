@@ -6,9 +6,11 @@
 	background-image: url("tetris-dodatno/index-background.jpg");
 	background-size: cover;
 	height: 100vh;
+	width: auto;
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	padding: 0%;
 }
 
 #mute {
@@ -25,7 +27,7 @@
 	font-family: "8BIT WONDER";
 	font-size: 9px;
 	font-display: swap;
-	width: 100vw;
+	width: 100%;
 	resize: none;
 	padding: 5px;
 	box-sizing: border-box;
@@ -38,4 +40,39 @@
 	font-size: 36px;
 	color: red;
 	text-align: center;
+}
+
+body {
+	overflow-y: hidden;
+}
+
+#tezina {
+	padding-top: 5px;
+	font-family: "8BIT WONDER";
+	text-align: center;
+}
+
+#tekst-tezine {
+	color: white;
+	padding-bottom: 10px;
+	font-size: 13px;
+}
+
+.block {
+	height: 100px;
+}
+
+#blokIzbor {
+	font-family: "8BIT WONDER";
+	text-align: center;
+	font-size: 11px;
+	color: white;
+	padding-bottom: 10px;
+}
+
+#zapocniIgruBtn {
+	font-family: "8BIT WONDER";
+	text-align: center;
+	font-size: 11px;
+	margin-top: 40px;
 }

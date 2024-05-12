@@ -10,3 +10,23 @@ window.onload = function () {
 	textarea.value = tekstUputstva;
 	autoResize(textarea);
 };
+
+function handleSelection() {
+	const selectedButtons = document.querySelectorAll(
+		'input[type="radio"]:checked'
+	);
+
+	const zapocniIgruBtn = document.getElementById("zapocniIgruBtn");
+
+	zapocniIgruBtn.addEventListener("click", function () {
+		window.location.href = "tetris-igra.html";
+	});
+
+	const buttonGroup = document.querySelector(".btn-group");
+
+	const selectedDiff = buttonGroup.querySelectorAll(".btn input:checked");
+
+	if (selectedButtons.length < 2 || selectedDiff.length != 1) {
+		alert("Morate odabrati barem dve vrste blokova i tačno jednu težinu");
+	}
+}
