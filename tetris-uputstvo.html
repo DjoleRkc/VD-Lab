@@ -33,31 +33,13 @@
 			<div id="mute" class="row">
 				<span id="uputstvo" class="col-lg-12">
 					<h1 id="title">Uputstvo za Igru:</h1>
-					<textarea id="tekst-uputstva"></textarea>
+					<textarea id="tekst-uputstva" disabled></textarea>
 				</span>
 				<div class="col-lg-6" id="tezina">
 					<p id="tekst-tezine">
 						Izaberite nivo igre. Nivo igre utice na brzinu padanja
 						blokova:
 					</p>
-					<!--<input
-						type="button"
-						value="Lako"
-						class="btn btn-group tezina-btn"
-						data-active="false"
-					/>
-					<input
-						type="button"
-						value="Srednje"
-						class="btn btn-group tezina-btn"
-						data-active="false"
-					/>
-					<input
-						type="button"
-						value="Tesko"
-						class="btn btn-group tezina-btn"
-						data-active="false"
-					/>-->
 
 					<div class="btn-group" data-toggle="buttons">
 						<label class="btn btn-group">
@@ -73,6 +55,20 @@
 							Tesko
 						</label>
 					</div>
+
+					<br />
+					<br />
+					<br />
+					<br />
+					<br />
+					<br />
+					<button
+						class="btn btn-danger"
+						id="rezultatiBtn"
+						window.location.href="tetris-igra.html"
+					>
+						Rezultati
+					</button>
 				</div>
 				<div id="blokIzbor">
 					Izaberite minimum dve vrste bloka koje ce biti koriscene:
@@ -83,14 +79,14 @@
 						alt="S Block"
 						class="block"
 					/>
-					<input type="radio" name="" id="s-block-radio" />
+					<input type="checkbox" name="" id="s-block-radio" />
 					<br />
 					<img
 						src="tetris-dodatno/t-block.png"
 						alt="T Block"
 						class="block"
 					/>
-					<input type="radio" name="" id="t-block-radio" />
+					<input type="checkbox" name="" id="t-block-radio" />
 				</div>
 
 				<div class="col-lg-2 text-center">
@@ -99,7 +95,7 @@
 						alt="L Block"
 						class="block"
 					/>
-					<input type="radio" name="" id="l-block-radio" />
+					<input type="checkbox" name="" id="l-block-radio" />
 					<br />
 					<br />
 					<img
@@ -107,7 +103,7 @@
 						alt="O Block"
 						class="block"
 					/>
-					<input type="radio" name="" id="o-block-radio" />
+					<input type="checkbox" name="" id="o-block-radio" />
 
 					<button
 						class="btn btn-success"
@@ -124,7 +120,7 @@
 						alt="Z Block"
 						class="block"
 					/>
-					<input type="radio" name="" id="z-block-radio" />
+					<input type="checkbox" name="" id="z-block-radio" />
 					<br />
 					<br />
 					<img
@@ -132,7 +128,7 @@
 						alt="I Block"
 						class="block"
 					/>
-					<input type="radio" name="" id="i-block-radio" />
+					<input type="checkbox" name="" id="i-block-radio" />
 					<br />
 					<br />
 					<img
@@ -140,7 +136,7 @@
 						alt="J Block"
 						class="block"
 					/>
-					<input type="radio" name="" id="j-block-radio" />
+					<input type="checkbox" name="" id="j-block-radio" />
 				</div>
 			</div>
 		</div>

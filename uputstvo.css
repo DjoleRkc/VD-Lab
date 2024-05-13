@@ -5,6 +5,7 @@
 #indexPage {
 	background-image: url("tetris-dodatno/index-background.jpg");
 	background-size: cover;
+	background-position: center;
 	height: 100vh;
 	width: auto;
 	display: flex;
@@ -40,10 +41,6 @@
 	font-size: 36px;
 	color: red;
 	text-align: center;
-}
-
-body {
-	overflow-y: hidden;
 }
 
 #tezina {

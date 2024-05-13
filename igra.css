@@ -1,0 +1,13 @@
+#grid {
+	border: 3px solid black;
+}
+
+#tabela {
+	text-align: center;
+}
+
+td {
+	height: 40px;
+	width: 40px;
+	border: 3px solid black;
+}
