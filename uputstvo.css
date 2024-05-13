@@ -62,6 +62,26 @@ body {
 	height: 100px;
 }
 
+.btn-group label {
+	display: inline-block;
+	padding: 10px 20px;
+	margin: 5px;
+	cursor: pointer;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	color: #fff;
+	background-color: #007bff;
+}
+
+.btn-group label.active {
+	background-color: #0056b3;
+	color: black;
+}
+
+.btn-group input[type="radio"] {
+	display: none;
+}
+
 #blokIzbor {
 	font-family: "8BIT WONDER";
 	text-align: center;

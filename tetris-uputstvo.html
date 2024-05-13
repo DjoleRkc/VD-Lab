@@ -40,13 +40,39 @@
 						Izaberite nivo igre. Nivo igre utice na brzinu padanja
 						blokova:
 					</p>
-					<input type="button" value="Lako" class="btn btn-group" />
+					<!--<input
+						type="button"
+						value="Lako"
+						class="btn btn-group tezina-btn"
+						data-active="false"
+					/>
 					<input
 						type="button"
 						value="Srednje"
-						class="btn btn-group"
+						class="btn btn-group tezina-btn"
+						data-active="false"
 					/>
-					<input type="button" value="Tesko" class="btn btn-group" />
+					<input
+						type="button"
+						value="Tesko"
+						class="btn btn-group tezina-btn"
+						data-active="false"
+					/>-->
+
+					<div class="btn-group" data-toggle="buttons">
+						<label class="btn btn-group">
+							<input type="radio" name="tezina" value="Lako" />
+							Lako
+						</label>
+						<label class="btn btn-group">
+							<input type="radio" name="tezina" value="Srednje" />
+							Srednje
+						</label>
+						<label class="btn btn-group">
+							<input type="radio" name="tezina" value="Tesko" />
+							Tesko
+						</label>
+					</div>
 				</div>
 				<div id="blokIzbor">
 					Izaberite minimum dve vrste bloka koje ce biti koriscene:

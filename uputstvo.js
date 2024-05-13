@@ -11,6 +11,29 @@ window.onload = function () {
 	autoResize(textarea);
 };
 
+$(document).ready(function () {
+	$(".tezina-btn").click(function () {
+		var isActive = $(this).attr("data-active") === "true";
+		$(this).attr("data-active", !isActive);
+
+		if (!isActive) {
+			$(this).addClass("active");
+		} else {
+			$(this).removeClass("active");
+		}
+	});
+});
+
+const selectedButtons = document.querySelectorAll(
+	'input[type="radio"]:checked'
+);
+
+selectedButtons.forEach((button) => {
+	button.addEventListener("click", function () {
+		this.checked = !this.checked;
+	});
+});
+
 function handleSelection() {
 	const selectedButtons = document.querySelectorAll(
 		'input[type="radio"]:checked'
