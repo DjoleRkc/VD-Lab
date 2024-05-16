@@ -1,3 +1,35 @@
 canvas {
 	border: 3px solid black;
+	background-color: #a8dadc;
+}
+
+body,
+html {
+	height: 100%;
+	margin: 0;
+	background-color: #a8dadc; /* Background color for the whole page */
+}
+
+.row {
+	display: flex;
+	align-items: flex-start; /* Align items to the top */
+	justify-content: center;
+	height: 100%; /* Full height of the viewport */
+	padding-top: 50px; /* Add space from the top */
+}
+
+.canvas-container {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background-color: #fff; /* Background for the canvas container */
+	padding: 20px; /* Padding around the canvas */
+	border-radius: 10px; /* Rounded corners */
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add shadow */
+	max-width: 650px; /* Set maximum width */
+}
+
+canvas {
+	display: block; /* Ensure no extra space below the canvas */
+	margin-top: 30px; /* Lower the canvas from the top */
 }
