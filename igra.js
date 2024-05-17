@@ -4,9 +4,14 @@ document.addEventListener("DOMContentLoaded", function () {
 	var tezina = localStorage.getItem("selectedDifficulty");
 	var trenutniOblik = null;
 	var intervall = null;
+	var stariOblik = null;
 	var blkSz = 25;
-	var brzina = tezina === "Lako" ? 1500 : tezina === "Srednje" ? 1000 : 500;
+	var brzina = tezina === "Lako" ? 1500 : tezina === "Srednje" ? 1000 : 700;
 	var touchedDown = true;
+
+	var redovi = canvas.height / blkSz;
+	var kolone = canvas.width / blkSz;
+	var board = Array.from({ length: redovi }, () => Array(kolone).fill(null));
 
 	var context = canvas.getContext("2d");
 
@@ -76,6 +81,8 @@ document.addEventListener("DOMContentLoaded", function () {
 		],
 	];
 
+	nacrtajRandom();
+
 	function nacrtaj(oblik, stX, stY, blkSz, boja) {
 		context.fillStyle = boja;
 
@@ -135,12 +142,23 @@ document.addEventListener("DOMContentLoaded", function () {
 			noveKoordinate.push(trenutniOblik.oblik[4]);
 			noveKoordinate.push(trenutniOblik.oblik[5]);
 
+			wipe();
+
 			noviOblik = {
 				oblik: noveKoordinate,
 				x: trenutniOblik.x,
 				y: trenutniOblik.y,
 				boja: trenutniOblik.boja,
 			};
+
+			nacrtaj(
+				noviOblik.oblik,
+				noviOblik.x,
+				noviOblik.y,
+				blkSz,
+				noviOblik.boja
+			);
+			stariOblik = { ...noviOblik };
 
 			return noviOblik;
 		} else if (smer === "SSK") {
@@ -172,6 +190,8 @@ document.addEventListener("DOMContentLoaded", function () {
 			noveKoordinate.push(trenutniOblik.oblik[4]);
 			noveKoordinate.push(trenutniOblik.oblik[5]);
 
+			wipe();
+
 			noviOblik = {
 				oblik: noveKoordinate,
 				x: trenutniOblik.x,
@@ -179,13 +199,45 @@ document.addEventListener("DOMContentLoaded", function () {
 				boja: trenutniOblik.boja,
 			};
 
+			nacrtaj(
+				noviOblik.oblik,
+				noviOblik.x,
+				noviOblik.y,
+				blkSz,
+				noviOblik.boja
+			);
+			stariOblik = { ...noviOblik };
+
 			return noviOblik;
 		}
 	}
 
+	function kolizija() {
+		for (let index = 0; index < trenutniOblik.oblik.length - 2; index++) {
+			if (
+				isBlockColored(
+					trenutniOblik.oblik[index][0] + trenutniOblik.x,
+					trenutniOblik.oblik[index][1] + 1 + trenutniOblik.y
+				)
+			) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	function isBlockColored(x, y) {
+		if (x < 0 || x >= kolone || y < 0 || y >= redovi) {
+			return false;
+		}
+		return board[x][y] !== null;
+	}
+
 	function pomeri() {
 		if (trenutniOblik != null) {
-			wipe();
+			if (stariOblik != null) wipe(stariOblik);
+
 			nacrtaj(
 				trenutniOblik.oblik,
 				trenutniOblik.x,
@@ -193,28 +245,78 @@ document.addEventListener("DOMContentLoaded", function () {
 				blkSz,
 				trenutniOblik.boja
 			);
-			trenutniOblik.y += 1;
+
+			stariOblik = {
+				...trenutniOblik,
+			};
 
 			if (
 				trenutniOblik.y + maxYCoord(trenutniOblik) >=
-				canvas.height / blkSz
+					canvas.height / blkSz - 1 ||
+				kolizija()
 			) {
 				clearInterval(intervall);
+				console.log(board);
+				for (
+					let index = 0;
+					index < trenutniOblik.oblik.length - 2;
+					index++
+				) {
+					console.log(trenutniOblik.oblik[index][0]);
+					console.log(trenutniOblik.oblik[index][1]);
+					console.log(trenutniOblik.x);
+					console.log(trenutniOblik.y);
+					board[trenutniOblik.oblik[index][0] + trenutniOblik.x][
+						trenutniOblik.oblik[index][1] + trenutniOblik.y
+					] = trenutniOblik.boja;
+				}
+				intervall = null;
 				trenutniOblik = null;
 				touchedDown = true;
+				stariOblik = null;
 				nacrtajRandom();
-				console.log("pala");
 			}
+			trenutniOblik.y += 1;
 		}
+	}
+
+	function pomeriDole() {
+		wipe();
+
+		if ((trenutniOblik.y + 1) * blkSz < canvas.height) {
+			trenutniOblik.y += 1;
+		}
+
+		nacrtaj(
+			trenutniOblik.oblik,
+			trenutniOblik.x,
+			trenutniOblik.y,
+			blkSz,
+			trenutniOblik.boja
+		);
+
+		stariOblik = {
+			...trenutniOblik,
+		};
 	}
 
 	function pomeriLevo(trenutniOblik) {
+		wipe();
 		if ((trenutniOblik.x - 1) * blkSz >= 0) {
 			trenutniOblik.x -= 1;
 		}
+		nacrtaj(
+			trenutniOblik.oblik,
+			trenutniOblik.x,
+			trenutniOblik.y,
+			blkSz,
+			trenutniOblik.boja
+		);
+		stariOblik = { ...trenutniOblik };
 	}
 
 	function pomeriDesno(trenutniOblik) {
+		wipe();
 		let maxX = -Infinity;
 		for (let index = 0; index < trenutniOblik.oblik.length - 2; index++) {
 			if (trenutniOblik.oblik[index][0] > maxX)
@@ -223,6 +325,14 @@ document.addEventListener("DOMContentLoaded", function () {
 		if ((trenutniOblik.x + maxX + 1) * blkSz < canvas.width) {
 			trenutniOblik.x += 1;
 		}
+		nacrtaj(
+			trenutniOblik.oblik,
+			trenutniOblik.x,
+			trenutniOblik.y,
+			blkSz,
+			trenutniOblik.boja
+		);
+		stariOblik = { ...trenutniOblik };
 	}
 
 	document.addEventListener("keydown", function (event) {
@@ -234,17 +344,9 @@ document.addEventListener("DOMContentLoaded", function () {
 			pomeriLevo(trenutniOblik);
 		} else if (event.key == "ArrowRight") {
 			pomeriDesno(trenutniOblik);
+		} else if (event.key == "ArrowDown") {
+			pomeriDole();
 		}
-
-		wipe();
-
-		nacrtaj(
-			trenutniOblik.oblik,
-			trenutniOblik.x,
-			trenutniOblik.y,
-			blkSz,
-			trenutniOblik.boja
-		);
 	});
 
 	function nacrtajRandom() {
@@ -275,8 +377,14 @@ document.addEventListener("DOMContentLoaded", function () {
 	}
 
 	function wipe() {
-		context.clearRect(0, 0, canvas.width, canvas.height);
+		if (stariOblik != null)
+			for (let index = 0; index < stariOblik.oblik.length - 2; index++) {
+				context.clearRect(
+					(stariOblik.x + stariOblik.oblik[index][0]) * blkSz - 1,
+					(stariOblik.y + stariOblik.oblik[index][1]) * blkSz - 1,
+					blkSz + 2,
+					blkSz + 2
+				);
+			}
 	}
-
-	nacrtajRandom();
 });
