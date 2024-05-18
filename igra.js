@@ -2,9 +2,11 @@ document.addEventListener("DOMContentLoaded", function () {
 	var canvas = document.getElementById("igraPolje");
 	var odabraniOblici = JSON.parse(localStorage.getItem("selectedBlocks"));
 	var tezina = localStorage.getItem("selectedDifficulty");
+	$(".nivo-screen").text(tezina);
 	var trenutniOblik = null;
 	var intervall = null;
 	var stariOblik = null;
+	var sledeciOblik = null;
 	var blkSz = 25;
 	var brzina = tezina === "Lako" ? 1500 : tezina === "Srednje" ? 1000 : 700;
 	var touchedDown = true;
@@ -112,6 +114,26 @@ document.addEventListener("DOMContentLoaded", function () {
 		return maxY;
 	}
 
+	function maxXCoord(trenOblik) {
+		let maxX = -Infinity;
+		for (let index = 0; index < trenOblik.oblik.length - 2; index++) {
+			const [x] = trenOblik.oblik[index];
+			if (x > maxX) maxX = x;
+		}
+
+		return maxX;
+	}
+
+	function minXCoord(trenutniOblik) {
+		let minX = Infinity;
+		for (let index = 0; index < trenutniOblik.oblik.length - 2; index++) {
+			const [x] = trenutniOblik.oblik[index];
+			if (x < minX) minX = x;
+		}
+
+		return minX;
+	}
+
 	function rotiraj(trenutniOblik, smer) {
 		if (smer === "SK") {
 			allY = [];
@@ -142,14 +164,26 @@ document.addEventListener("DOMContentLoaded", function () {
 			noveKoordinate.push(trenutniOblik.oblik[4]);
 			noveKoordinate.push(trenutniOblik.oblik[5]);
 
-			wipe();
-
 			noviOblik = {
 				oblik: noveKoordinate,
 				x: trenutniOblik.x,
 				y: trenutniOblik.y,
 				boja: trenutniOblik.boja,
 			};
+
+			for (let index = 0; index < noviOblik.oblik.length - 2; index++) {
+				if (
+					isBlockColored(
+						noviOblik.oblik[index][0] + noviOblik.x,
+						noviOblik.oblik[index][1] + noviOblik.y
+					) ||
+					(noviOblik.y + 1 + noviOblik.oblik[index][1]) * blkSz >=
+						canvas.height
+				)
+					return trenutniOblik;
+			}
+
+			wipe();
 
 			nacrtaj(
 				noviOblik.oblik,
@@ -190,14 +224,26 @@ document.addEventListener("DOMContentLoaded", function () {
 			noveKoordinate.push(trenutniOblik.oblik[4]);
 			noveKoordinate.push(trenutniOblik.oblik[5]);
 
-			wipe();
-
 			noviOblik = {
 				oblik: noveKoordinate,
 				x: trenutniOblik.x,
 				y: trenutniOblik.y,
 				boja: trenutniOblik.boja,
 			};
+
+			for (let index = 0; index < noviOblik.oblik.length - 2; index++) {
+				if (
+					isBlockColored(
+						noviOblik.oblik[index][0] + noviOblik.x,
+						noviOblik.oblik[index][1] + noviOblik.y
+					) ||
+					(noviOblik.y + 1 + noviOblik.oblik[index][1]) * blkSz >=
+						canvas.height
+				)
+					return trenutniOblik;
+			}
+
+			wipe();
 
 			nacrtaj(
 				noviOblik.oblik,
@@ -212,12 +258,44 @@ document.addEventListener("DOMContentLoaded", function () {
 		}
 	}
 
-	function kolizija() {
+	function kolizijaDole() {
 		for (let index = 0; index < trenutniOblik.oblik.length - 2; index++) {
 			if (
 				isBlockColored(
 					trenutniOblik.oblik[index][0] + trenutniOblik.x,
 					trenutniOblik.oblik[index][1] + 1 + trenutniOblik.y
+				) ||
+				(trenutniOblik.y + 1 + trenutniOblik.oblik[index][1]) * blkSz >=
+					canvas.height
+			) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	function kolizijaLevo() {
+		for (let index = 0; index < trenutniOblik.oblik.length - 2; index++) {
+			if (
+				isBlockColored(
+					trenutniOblik.oblik[index][0] + trenutniOblik.x - 1,
+					trenutniOblik.oblik[index][1] + trenutniOblik.y
+				)
+			) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	function kolizijaDesno() {
+		for (let index = 0; index < trenutniOblik.oblik.length - 2; index++) {
+			if (
+				isBlockColored(
+					trenutniOblik.oblik[index][0] + trenutniOblik.x + 1,
+					trenutniOblik.oblik[index][1] + trenutniOblik.y
 				)
 			) {
 				return true;
@@ -250,11 +328,7 @@ document.addEventListener("DOMContentLoaded", function () {
 				...trenutniOblik,
 			};
 
-			if (
-				trenutniOblik.y + maxYCoord(trenutniOblik) >=
-					canvas.height / blkSz - 1 ||
-				kolizija()
-			) {
+			if (kolizijaDole()) {
 				clearInterval(intervall);
 				console.log(board);
 				for (
@@ -262,10 +336,6 @@ document.addEventListener("DOMContentLoaded", function () {
 					index < trenutniOblik.oblik.length - 2;
 					index++
 				) {
-					console.log(trenutniOblik.oblik[index][0]);
-					console.log(trenutniOblik.oblik[index][1]);
-					console.log(trenutniOblik.x);
-					console.log(trenutniOblik.y);
 					board[trenutniOblik.oblik[index][0] + trenutniOblik.x][
 						trenutniOblik.oblik[index][1] + trenutniOblik.y
 					] = trenutniOblik.boja;
@@ -281,6 +351,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	}
 
 	function pomeriDole() {
+		if (kolizijaDole()) return;
 		wipe();
 
 		if ((trenutniOblik.y + 1) * blkSz < canvas.height) {
@@ -301,6 +372,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	}
 
 	function pomeriLevo(trenutniOblik) {
+		if (kolizijaLevo()) return;
 		wipe();
 		if ((trenutniOblik.x - 1) * blkSz >= 0) {
 			trenutniOblik.x -= 1;
@@ -316,6 +388,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	}
 
 	function pomeriDesno(trenutniOblik) {
+		if (kolizijaDesno()) return;
 		wipe();
 		let maxX = -Infinity;
 		for (let index = 0; index < trenutniOblik.oblik.length - 2; index++) {
@@ -379,6 +452,38 @@ document.addEventListener("DOMContentLoaded", function () {
 	function wipe() {
 		if (stariOblik != null)
 			for (let index = 0; index < stariOblik.oblik.length - 2; index++) {
+				if (
+					stariOblik.oblik[index][0] == minXCoord(stariOblik) &&
+					isBlockColored(
+						stariOblik.oblik[index][0] + stariOblik.x - 1,
+						stariOblik.oblik[index][1] + stariOblik.y
+					)
+				) {
+					context.clearRect(
+						(stariOblik.x + stariOblik.oblik[index][0]) * blkSz,
+						(stariOblik.y + stariOblik.oblik[index][1]) * blkSz - 1,
+						blkSz + 1,
+						blkSz + 2
+					);
+					continue;
+				}
+
+				if (
+					stariOblik.oblik[index][0] == maxXCoord(stariOblik) &&
+					isBlockColored(
+						stariOblik.oblik[index][0] + stariOblik.x + 1,
+						stariOblik.oblik[index][1] + stariOblik.y
+					)
+				) {
+					context.clearRect(
+						(stariOblik.x + stariOblik.oblik[index][0]) * blkSz - 1,
+						(stariOblik.y + stariOblik.oblik[index][1]) * blkSz - 1,
+						blkSz + 1,
+						blkSz + 2
+					);
+					continue;
+				}
+
 				context.clearRect(
 					(stariOblik.x + stariOblik.oblik[index][0]) * blkSz - 1,
 					(stariOblik.y + stariOblik.oblik[index][1]) * blkSz - 1,
