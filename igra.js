@@ -10,12 +10,15 @@ document.addEventListener("DOMContentLoaded", function () {
 	var blkSz = 25;
 	var brzina = tezina === "Lako" ? 1500 : tezina === "Srednje" ? 1000 : 700;
 	var touchedDown = true;
-
+	var rezultat = 0;
+	var ime;
 	var redovi = canvas.height / blkSz;
 	var kolone = canvas.width / blkSz;
 	var board = Array.from({ length: redovi }, () => Array(kolone).fill(null));
 
 	var context = canvas.getContext("2d");
+
+	$(".score-screen").text(rezultat);
 
 	oblici = [
 		[
@@ -82,8 +85,6 @@ document.addEventListener("DOMContentLoaded", function () {
 			"green",
 		],
 	];
-
-	nacrtajRandom();
 
 	function nacrtaj(oblik, stX, stY, blkSz, boja) {
 		context.fillStyle = boja;
@@ -330,7 +331,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
 			if (kolizijaDole()) {
 				clearInterval(intervall);
-				console.log(board);
 				for (
 					let index = 0;
 					index < trenutniOblik.oblik.length - 2;
@@ -422,28 +422,68 @@ document.addEventListener("DOMContentLoaded", function () {
 		}
 	});
 
+	function generisiSledeciOblik() {
+		let randomNum = Math.floor(Math.random() * odabraniOblici.length);
+
+		sledeciOblik = odabraniOblici[randomNum];
+
+		let url = "tetris-dodatno/" + sledeciOblik + ".png";
+
+		let img = $("<img>").attr("src", url);
+
+		$(".sledeci-oblik-screen").html("");
+
+		$(".sledeci-oblik-screen").append(img);
+	}
+
 	function nacrtajRandom() {
 		touchedDown = false;
 
+		if (sledeciOblik == null) {
+			generisiSledeciOblik();
+		}
+
 		while (true) {
 			trenutniOblik = null;
-			let randomNum = Math.floor(Math.random() * odabraniOblici.length);
-
-			let randomOblik = odabraniOblici[randomNum];
 
 			oblici.forEach((element) => {
-				if (element.includes(randomOblik)) {
+				if (element.includes(sledeciOblik)) {
 					trenutniOblik = {
 						oblik: element,
 						x: Math.floor(Math.random() * 22),
 						y: 0,
 						boja: element[5],
 					};
+
+					for (
+						let index = 0;
+						index < trenutniOblik.oblik.length - 2;
+						index++
+					) {
+						if (
+							isBlockColored(
+								trenutniOblik.oblik[index][0] + trenutniOblik.x,
+								trenutniOblik.oblik[index][1] + trenutniOblik.y
+							)
+						) {
+							while (!ime) {
+								ime = prompt("Igra je gotova! Unesite ime");
+							}
+
+							localStorage.setItem("ime", ime);
+							localStorage.setItem("rezultat", rezultat);
+							clearInterval(intervall);
+							window.location.href = "tetris-rezultati.html";
+
+							break;
+						}
+					}
 				}
 			});
 
 			if (trenutniOblik != null) break;
 		}
+		generisiSledeciOblik();
 		if (!intervall) {
 			intervall = setInterval(pomeri, brzina);
 		}
@@ -492,4 +532,5 @@ document.addEventListener("DOMContentLoaded", function () {
 				);
 			}
 	}
+	nacrtajRandom();
 });

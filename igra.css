@@ -52,3 +52,7 @@ canvas {
 	border: 3px dashed black;
 	color: blue;
 }
+
+.sledeci-oblik-screen > img {
+	width: 100%;
+}

@@ -6,10 +6,14 @@ function autoResize() {
 
 $(document).ready(function () {
 	var tekstUputstva =
-		"In the vast expanse of the cosmos, galaxies collide and stars are born. Light dances across the universe, painting a canvas of shimmering wonders. On a small blue planet called Earth, life flourishes in diverse forms. From towering forests to sprawling cities, the world teems with activity.midst this vibrant tapestry, human endeavors take shape. Scientists probe the mysteries of quantum mechanics, while artists capture fleeting emotions on canvas. In bustling markets, traders barter goods with a timeless rhythm. Meanwhile, children play in sunlit meadows, their laughter echoing through the air.Across continents, cultures intertwine like threads in a tapestry. Music, with its universal language, unites hearts and minds. From the haunting melodies of distant lands to the rhythmic beats of urban streets, every note tells a story.";
+		"Cilj ove igre je, koristeci tastere, pomerati blokove koji padaju sa vrha prostora za igru sa ciljem da ih slozite na nacin tako da izmedju blokova ostane sto manje praznog prostora. Kada se jedan ceo red popuni, ceo taj red nestaje, a svi blokovi iznad se spustaju za jedan nivo i time ostvarujete poene. Kako tok igre napreduje, blokovi padaju sve brze te imate sve manje vremena za razmisljanje i slaganje. Kada se blokovi nagomilaju do vrha polja za igru, bez mogucnosti da se novi blok pojavi, igra je gotova. Nivo igre utice na pocetnu brzinu padanja blokova. U svakom trenutku igre pada jedan blok na koji moze da se utice tako sto se on pomera levo-desno, brze spusta na dno, ili rotira. Kada blok padne na dno table ili na drugi blok, on se zaustavlja, a na vrhu table se generise nov blok.";
 
 	$("#tekst-uputstva").val(tekstUputstva);
 	autoResize();
+
+	$("#rezultatiBtn").on("click", function () {
+		window.location.href = "tetris-rezultati.html";
+	});
 
 	$(".tezina-btn").click(function () {
 		var isActive = $(this).attr("data-active") === "true";
