@@ -1,7 +1,61 @@
 body {
 	font-family: "8BIT WONDER";
+	background-color: #f8f9fa;
+	margin: 0;
+	padding: 0;
+}
+
+.container-fluid {
+	padding: 20px;
+}
+
+.row {
+	margin: 0;
+	display: flex;
+	justify-content: space-between;
+}
+
+.tabela-container {
+	background-color: #ffffff;
+	padding: 20px;
+	border-radius: 8px;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.rezultati-tabela {
+	width: 100%;
+	border-collapse: collapse;
+	margin-top: 15px;
+}
+
+.rezultati-tabela td {
+	padding: 10px;
+	border: 1px solid #dee2e6;
+	text-align: center;
+	background-color: #f1f1f1;
+	font-size: 18px;
+}
+
+#pocetnaBtn {
+	margin-top: 20px;
+	width: 100%;
+	font-size: 16px;
+	padding: 10px 0;
+}
+
+.col-lg-2 {
+	background-color: #ffffff;
+	padding: 20px;
+	border-radius: 8px;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+	text-align: center;
+	font-size: 18px;
 }
 
 #najnoviji-rez {
-	color: blue;
+	font-weight: bold;
+	font-size: 24px;
+	color: #007bff;
+	display: block;
+	margin-top: 10px;
 }

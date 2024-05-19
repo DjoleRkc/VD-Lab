@@ -313,6 +313,14 @@ document.addEventListener("DOMContentLoaded", function () {
 		return board[x][y] !== null;
 	}
 
+	function popunjenRed(red){
+		for (let index = 0; index < canvas.width/blkSz; index++) {
+			if(!isBlockColored(index, red))
+				return false
+		}
+		return true
+	}
+
 	function pomeri() {
 		if (trenutniOblik != null) {
 			if (stariOblik != null) wipe(stariOblik);
@@ -331,20 +339,72 @@ document.addEventListener("DOMContentLoaded", function () {
 
 			if (kolizijaDole()) {
 				clearInterval(intervall);
+				intervall = null;
 				for (
-					let index = 0;
-					index < trenutniOblik.oblik.length - 2;
-					index++
+					let index = trenutniOblik.oblik.length - 3;
+					index >= 0 ;
+					index--
 				) {
 					board[trenutniOblik.oblik[index][0] + trenutniOblik.x][
 						trenutniOblik.oblik[index][1] + trenutniOblik.y
 					] = trenutniOblik.boja;
 				}
-				intervall = null;
+
+				for (
+					let index = trenutniOblik.oblik.length - 3;
+					index >= 0 ;
+					index--
+				){
+					let red = trenutniOblik.oblik[index][1] + trenutniOblik.y
+					if(popunjenRed(red)){
+						rezultat += 100
+						$(".score-screen").text(rezultat)
+						for (let index = red; index > 0; index--) {
+							for (let i = 0; i < canvas.width/blkSz; i++) {
+								board[i][index] = board[i][index-1]
+
+								context.clearRect(
+									i * blkSz - 1,
+									(index-1) * blkSz,
+									blkSz + 2,
+									blkSz + 1
+								);
+								context.clearRect(
+									i * blkSz - 1,
+									index * blkSz,
+									blkSz + 2,
+									blkSz + 1
+								);
+								
+								if(board[i][index-1] != null)
+									nacrtaj([[0,0]], i, index, blkSz, board[i][index-1])
+							}
+						}
+						if(rezultat > 100){
+							brzina -= 100
+							clearInterval(intervall)
+							intervall = setInterval(pomeri, brzina);
+						}
+
+						if(rezultat > 300){
+							brzina -= 100
+							clearInterval(intervall)
+							intervall = setInterval(pomeri, brzina);
+						}
+
+						if(rezultat > 700){
+							brzina -= 100
+							clearInterval(intervall)
+							intervall = setInterval(pomeri, brzina);
+						}
+					}
+					
+				}
 				trenutniOblik = null;
 				touchedDown = true;
 				stariOblik = null;
 				nacrtajRandom();
+				return;
 			}
 			trenutniOblik.y += 1;
 		}
@@ -472,6 +532,28 @@ document.addEventListener("DOMContentLoaded", function () {
 
 							localStorage.setItem("ime", ime);
 							localStorage.setItem("rezultat", rezultat);
+							if (localStorage.getItem("tabela") == null) {
+								localStorage.setItem("tabela", "")
+							}
+
+							var tabela = localStorage.getItem("tabela")
+							let noviStr
+
+							if(tabela === ""){
+								noviStr = ime + ": " + rezultat
+							}
+							else{
+								noviStr = ";" + ime + ": " + rezultat
+							}
+
+							
+
+							tabela += noviStr
+						
+							localStorage.setItem(
+								"tabela",
+								tabela
+							);
 							clearInterval(intervall);
 							window.location.href = "tetris-rezultati.html";
 
